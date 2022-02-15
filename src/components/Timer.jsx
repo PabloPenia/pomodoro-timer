@@ -7,18 +7,20 @@ const Timer = ({ current, handler, state, session, count }) => {
     }
   }
   return (
-    <div className="clock">
+    <>
+      <p id="time-left">{state === 0 ? toMinutes(session) : toMinutes(count)}</p>
       <h3 id="timer-label">{current ? 'Session' : 'Break'}</h3>
-      <button id="start_stop" onClick={handler.playPause}>
-        <i className={`fas fa-${state === 1 ? 'pause' : 'play'}`}></i>
-      </button>
-      <p className="big" id="time-left">
-        {state === 0 ? toMinutes(session) : toMinutes(count)}
-      </p>
-      <button id="reset" onClick={handler.reset}>
-        <i className="fas fa-sync-alt"></i>
-      </button>
-    </div>
+      <div className="buttons">
+        <button id="start_stop" onClick={handler.playPause}>
+          <i className={`fas fa-${state === 1 ? 'pause' : 'play'}`}></i>
+          <span>{state === 1 ? 'pause' : 'play'}</span>
+        </button>
+        <button id="reset" onClick={handler.reset}>
+          <i className="fas fa-sync-alt"></i>
+          <span>reset</span>
+        </button>
+      </div>
+    </>
   )
 }
 

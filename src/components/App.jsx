@@ -1,7 +1,9 @@
+import '../sass/App.sass'
 import { useState, useRef } from 'react'
-import Setter from './Setter'
 import Timer from './Timer'
+import Setup from './Setup'
 function App() {
+  const sound = new Audio('https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav')
   const [timer, setTimer] = useState({
     break: 300,
     session: 1500,
@@ -9,7 +11,8 @@ function App() {
   })
   const [isSession, setIsSession] = useState(true)
   const [timeLeft, setTimeLeft] = useState(1500)
-  const sound = document.getElementById('beep')
+  const [options, setOptions] = useState(false)
+
   let intervalRef = useRef(null)
   if (timeLeft < 0) {
     sound.play()
@@ -27,6 +30,10 @@ function App() {
         if (timer.state === 0) setTimeLeft(value)
         setTimer({ break: timer.break, session: value, state: timer.state })
       }
+    },
+    options: () => {
+      if (!options) make.reset()
+      return setOptions(!options)
     },
   }
   const count = {
@@ -75,14 +82,30 @@ function App() {
   return (
     <div>
       <h1>Pomodoro clock</h1>
-      <div className="setters">
-        <Setter name="break" current={timer.break} handler={config.break} />
-        <Setter name="session" current={timer.session} handler={config.session} />
+      <div className="timer">
+        <div className="outer">
+          <div className="inner">
+            {!options ? <Timer current={isSession} state={timer.state} count={timeLeft} session={timer.session} handler={make} /> : <Setup timer={timer} config={config} />}
+            <button className="options" onClick={() => config.options()}>
+              {options ? 'Done' : 'Config'}
+            </button>
+          </div>
+        </div>
       </div>
-      <Timer current={isSession} state={timer.state} count={timeLeft} session={timer.session} handler={make} />
-      <audio id="beep" preload="auto">
-        <source src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav" />
-      </audio>
+      <footer>
+        Made with{' '}
+        <a href="https://reactjs.org" target="_blank" rel="noreferrer">
+          React
+        </a>{' '}
+        by{' '}
+        <a href="https://linkedin.com/in/PabloPenia" target="_blank" rel="noreferrer">
+          Pablo Peña
+        </a>{' '}
+        | Get the{' '}
+        <a href="https://github.com/PabloPenia/pomodoro.git" target="_blank" rel="noreferrer">
+          Source Code
+        </a>
+      </footer>
     </div>
   )
 }
