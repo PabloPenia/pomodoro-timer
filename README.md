@@ -2,7 +2,7 @@
 
 A simple timer following the Pomodoro Technique, also known as 25+5 clock.
 
-## [DEMO](https://pablopenia.github.io/pomodoro/)
+## [DEMO](https://pablopenia.github.io/pomodoro-timer/)
 
 ---
 
